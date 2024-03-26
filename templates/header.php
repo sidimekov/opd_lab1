@@ -73,6 +73,14 @@
       <h3>Оценка профессий</h3>
     </a>
   <?php endif; ?>
+  <?php if (checkAuth() && getCurrentUser()['role_id'] >= 2): ?>
+    <a href="admin/user_list.php" class="nav-link">
+      <h3>admin: Список пользователей</h3>
+    </a>
+    <a href="admin/rate_list.php" class="nav-link">
+      <h3>admin: Список оценок</h3>
+    </a>
+  <?php endif; ?>
 </nav>
 <!-- <nav class="nav" style="margin-top: 50px;">
   <a href="main.php" class="nav-link">Главная</a>
