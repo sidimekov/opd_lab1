@@ -4,11 +4,11 @@ require_once ('./backend/helper.php'); ?>
 <div id="show_rating" class="window">
     <div class="window-content">
         <div class="window-header">
-            <h2>Просмотр оценки профессии</h2>
+            <h2>Просмотр своей оценки профессии</h2>
             <span class="close-rate-windows">&times;</span>
         </div>
         <div class="window-body">
-            <h3>Выберите ПВК для оценки профессии (от 5 до 10 включительно):</h3>
+            <h3>Ваша оценка:</h3>
             <div class="piq_list" id="choose_piq_list">
                 <?php foreach (getPiqs() as $piq): ?>
                     <?php
@@ -24,10 +24,6 @@ require_once ('./backend/helper.php'); ?>
                     </label>
                 <?php endforeach; ?>
             </div>
-
-            <button type="button" id="rate-button1" class="rate-button">
-                Далее
-            </button>
 
         </div>
     </div>

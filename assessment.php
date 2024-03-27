@@ -28,8 +28,9 @@ if (!checkAuth() || getCurrentUser()['role_id'] < 1) {
 
   <?php include_once __DIR__ . '/templates/windows/choose_piqs.php'; ?>
   <?php include_once __DIR__ . '/templates/windows/rate_piqs.php'; ?>
+  <?php include_once __DIR__ . '/templates/windows/show_rating.php'; ?>
 
-  <script src="scripts/rate_piqs.js"></script>
+  <script type="module" src="scripts/rate_piqs.js"></script>
 
 </body>
 

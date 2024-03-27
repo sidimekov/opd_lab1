@@ -1,3 +1,5 @@
+import {sendData} from './data_manager.js' ;
+
 // окно 1 этапа: выборка ПВК
 const choose_piqs_window = document.querySelector('#choose_piqs');
 
@@ -57,6 +59,7 @@ Array.from(closeBtns).forEach(closeBtn => {
 function closeWindows() {
     choose_piqs_window.style.display = 'none';
     rate_piqs_window.style.display = 'none';
+    showRatingWindow.style.display = 'none';
     clearRate();
 }
 
@@ -174,21 +177,6 @@ function submitRating() {
             queries.push("INSERT INTO `ratings` (`profession_id`, `piq_id`, `priority`, `expert_id`, `date`) VALUES ('" + proffesionId + "', '" + pidId + "', '" + importance + "', '" + expertId + "', current_timestamp());");
         }
 
-
-        // послать запрос в rate.php, чтобы можно было нормально послать запрос в БД
-        // функция в done запускается при успешной отправке запроса
-        // $.ajax({
-        //     type: "POST",
-        //     url: "backend/rate.php",
-        //     data: {data: jsonString}
-        // }).done(function () {
-        //     sessionStorage.setItem('rateState', 0);
-        //     closeWindows();
-        //     window.location.reload();
-        // });
-        // return false;
-
-
         // все запросы в виде массива и в json
         var jsonString = JSON.stringify(queries);
         jsonString = encodeURIComponent(jsonString);
@@ -223,9 +211,22 @@ function hasDuplicates(array) {
     return (new Set(array)).size !== array.length;
 }
 
+// показать профессии
+const showRatingWindow = document.getElementById("show_rating");
 
-// ready отвечает за то, когда страница загрузится, то делать то что ниже
-// $(document).ready(function () {
-//     // в скобках указывается класс/ид элемента и что будет при клике:
-//     $('#rate-button2').click(submitRating);
-// });
+const showRatingButtons = document.querySelectorAll("#view-rating-button");
+Array.from(showRatingButtons).forEach((showRatingButton) => {
+    showRatingButton.addEventListener('click', showRate.bind(null, showRatingButton));
+});
+function showRate(showRatingButton){
+    splitted = showRatingButton.name.split('_');
+    profession_id = splitted[0];
+    expert_id = splitted[1];
+    showRatingWindow.style.display = 'block';
+
+    const data = {
+        profId: profession_id,
+        expertId: expertId
+    };
+    sendData('../assessment.php', JSON.stringify(data));
+}
