@@ -59,17 +59,18 @@ Array.from(closeBtns).forEach(closeBtn => {
 function closeWindows() {
     choose_piqs_window.style.display = 'none';
     rate_piqs_window.style.display = 'none';
-    showRatingWindow.style.display = 'none';
+    // showRatingWindow.style.display = 'none';
     clearRate();
 }
 
 // фукнции 1 этапа
 function openChoosePiqsWindow(windowButton) {
-    splitted = windowButton.name.split('_');
+    // console.log(windowButton.name.split('_'));
+    var splitted = windowButton.name.split('_');
     // console.log("нажато " + windowButton.name);
-    profession_id = splitted[0];
+    var profession_id = splitted[0];
     sessionStorage.setItem("profession_id", profession_id);
-    expert_id = splitted[1];
+    var expert_id = splitted[1];
     sessionStorage.setItem('expert_id', expert_id);
     // console.log(prof_id, expert_id);
     choose_piqs_window.style.display = 'block';
@@ -91,7 +92,7 @@ function openRatePiqsWindow() {
     var chosenPiqs = [];
 
     for (var i = 0; i < checks.length; i++) {
-        piq_id = checks[i].id;
+        var piq_id = checks[i].id;
         if (document.getElementById(piq_id).checked == true) {
             chosenPiqs.push(piq_id.substring(4, piq_id.length));
         }
@@ -110,7 +111,7 @@ function openRatePiqsWindow() {
         var items_css = document.querySelectorAll('.piq_control_item');
         var items_el = document.getElementsByClassName('piq_control_item');
         for (var i = 0; i < items_css.length; i++) {
-            current_piq_id = items_el[i].id;
+            var current_piq_id = items_el[i].id;
             current_piq_id = current_piq_id.substring(17, current_piq_id.length);
             if (piqs.includes(current_piq_id)) {
                 items_css[i].style.display = 'block';
@@ -142,11 +143,11 @@ function outsideClick2(e) {
 // слушатель кнопки конца 2 этапа:
 setRatingButton.addEventListener('click', submitRating)
 function submitRating() {
-    inputValues = document.getElementsByClassName('piq_imp');
-    ratingMap = new Map();
+    var inputValues = document.getElementsByClassName('piq_imp');
+    var ratingMap = new Map();
     for (var i = 0; i < inputValues.length; i++) {
-        input = inputValues[i].value;
-        piq_id = inputValues[i].getAttribute('piq_id');
+        var input = inputValues[i].value;
+        var piq_id = inputValues[i].getAttribute('piq_id');
 
         if (input < 0 || input > 10 || input % 1 != 0) {
             alert("Числа должны быть целые, от 0 до 10 включительно");
@@ -168,9 +169,9 @@ function submitRating() {
         sessionStorage.setItem("rateState", 3);
 
         // производство запросов в бд
-        proffesionId = sessionStorage.getItem('profession_id');
-        expertId = sessionStorage.getItem('expert_id');
-        queries = []
+        var proffesionId = sessionStorage.getItem('profession_id');
+        var expertId = sessionStorage.getItem('expert_id');
+        var queries = []
         for (let [pidId, importance] of piqRating) {
             console.log(pidId, importance);
             // piq_id -> importance
@@ -212,21 +213,30 @@ function hasDuplicates(array) {
 }
 
 // показать профессии
-const showRatingWindow = document.getElementById("show_rating");
+// const showRatingWindow = document.getElementById("show_rating");
 
-const showRatingButtons = document.querySelectorAll("#view-rating-button");
-Array.from(showRatingButtons).forEach((showRatingButton) => {
-    showRatingButton.addEventListener('click', showRate.bind(null, showRatingButton));
-});
-function showRate(showRatingButton){
-    splitted = showRatingButton.name.split('_');
-    profession_id = splitted[0];
-    expert_id = splitted[1];
-    showRatingWindow.style.display = 'block';
+// const showRatingButtons = document.querySelectorAll("#view-rating-button");
+// Array.from(showRatingButtons).forEach((showRatingButton) => {
+//     showRatingButton.addEventListener('click', showRate.bind(null, showRatingButton));
+// });
+// function showRate(showRatingButton){
+//     var splitted = showRatingButton.name.split('_');
+//     var profession_id = splitted[0];
+//     var expert_id = splitted[1];
+//     showRatingWindow.style.display = 'block';
+//     // console.log('1');
 
-    const data = {
-        profId: profession_id,
-        expertId: expertId
-    };
-    sendData('../assessment.php', JSON.stringify(data));
-}
+//     const data = {
+//         profId: profession_id,
+//         expertId: expert_id
+//     };
+//     const response = sendData('http://localhost:80', JSON.stringify(data))
+//     .then(() => {
+//         console.log('отправлены данные');
+//     })
+//     .catch((err) => {
+//         console.log(err);
+//     });
+
+//     response.then((data) => {console.log(data);})
+// }

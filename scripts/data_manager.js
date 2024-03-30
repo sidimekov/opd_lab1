@@ -22,3 +22,7 @@ export const sendData = async (url, data) => {
 
   return await response.json();
 }
+
+// обработка
+// response = get/set...;
+// response.then((data) => {console.log(data);})

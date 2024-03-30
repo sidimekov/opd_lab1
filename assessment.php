@@ -15,6 +15,7 @@ if (!checkAuth() || getCurrentUser()['role_id'] < 1) {
   <!-- <link rel="stylesheet" type="text/css" href="css/styles_main.css"> -->
   <?php require_once __DIR__ . '/css/styles_main.php'; ?>
   <?php include_once __DIR__ . '/templates/script_reload.php'; ?>
+  <link rel="icon" href="data:;base64,=">
 </head>
 
 <body>

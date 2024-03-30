@@ -204,6 +204,7 @@ require_once ('./backend/helper.php');
         border-radius: 5px;
         cursor: pointer;
     } */
+    .view-rating-button,
     .button {
         margin: 0 5px;
         background-color: #4CAF50;
@@ -217,6 +218,7 @@ require_once ('./backend/helper.php');
         transition: background-color 0.3s ease;
     }
 
+    .view-rating-button:active
     .pvc-button:active,
     .button:active {
         background-color: #4CAF50;
