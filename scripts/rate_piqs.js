@@ -1,4 +1,4 @@
-import {sendData} from './data_manager.js' ;
+import { sendData } from './data_manager.js';
 
 // окно 1 этапа: выборка ПВК
 const choose_piqs_window = document.querySelector('#choose_piqs');
@@ -59,7 +59,9 @@ Array.from(closeBtns).forEach(closeBtn => {
 function closeWindows() {
     choose_piqs_window.style.display = 'none';
     rate_piqs_window.style.display = 'none';
-    // showRatingWindow.style.display = 'none';
+    if (showRatingWindow != null) {
+        showRatingWindow.style.display = 'none';
+    }
     clearRate();
 }
 
@@ -197,7 +199,7 @@ function submitRating() {
                 sessionStorage.setItem('rateState', 0);
                 alert("Оценка учтена!");
                 closeWindows();
-                window.location.reload();
+                window.location.reload(true);
             }
         }
 
@@ -214,29 +216,36 @@ function hasDuplicates(array) {
 
 // показать профессии
 // const showRatingWindow = document.getElementById("show_rating");
+let showRatingWindow = null;
 
-// const showRatingButtons = document.querySelectorAll("#view-rating-button");
-// Array.from(showRatingButtons).forEach((showRatingButton) => {
-//     showRatingButton.addEventListener('click', showRate.bind(null, showRatingButton));
-// });
-// function showRate(showRatingButton){
-//     var splitted = showRatingButton.name.split('_');
-//     var profession_id = splitted[0];
-//     var expert_id = splitted[1];
-//     showRatingWindow.style.display = 'block';
-//     // console.log('1');
+const showRatingWindows = document.querySelectorAll(".show_rating_window");
+Array.from(showRatingWindows).forEach((showRatingWindow) => {
+    showRatingWindow.addEventListener('click', (e) => {
+        if (e.target == showRatingWindow) {
+            showRatingWindow.style.display = 'none';
+        }
+    });
+});
+const showRatingButtons = document.querySelectorAll("#view-rating-button");
+Array.from(showRatingButtons).forEach((showRatingButton) => {
+    showRatingButton.addEventListener('click', showRate.bind(null, showRatingButton));
+});
+function showRate(showRatingButton) {
+    var splitted = showRatingButton.name.split('_');
+    var profession_id = splitted[0];
+    var expert_id = splitted[1];
+    showRatingWindow = document.querySelector(`#show_rating_${profession_id}_${expert_id}`);
+    showRatingWindow.style.display = 'block';
+    // console.log(profession_id, expert_id, showRatingWindow);
 
-//     const data = {
-//         profId: profession_id,
-//         expertId: expert_id
-//     };
-//     const response = sendData('http://localhost:80', JSON.stringify(data))
-//     .then(() => {
-//         console.log('отправлены данные');
-//     })
-//     .catch((err) => {
-//         console.log(err);
-//     });
+    // const data = {
+    //     profId: profession_id,
+    //     expertId: expert_id
+    // };
+    // var response = sendData('../backend/get_ratings.php', JSON.stringify(data))
+    // .catch((err) => {
+    //     console.log(err);
+    // });
 
-//     response.then((data) => {console.log(data);})
-// }
+    // response.then((data) => {console.log(data);});
+}

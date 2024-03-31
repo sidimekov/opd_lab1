@@ -140,13 +140,13 @@ require_once ('./backend/helper.php');
         justify-content: center;
         position: fixed;
         top: 0px;
-        z-index: 10;
+        z-index: 30;
     }
 
     .nav a {
         text-decoration: none;
         color: black;
-        padding: 10px;
+        padding: 2px;
         margin: 0 10px;
         border-radius: 5px;
     }
@@ -263,11 +263,11 @@ require_once ('./backend/helper.php');
         padding: 5px;
     }
 
+    .show_rating_window,
     .window {
-        display:
-            none;
+        display: none;
         position: fixed;
-        z-index: 11;
+        z-index: 40;
         left: 0;
         top: 0;
         width: 100%;
@@ -343,22 +343,4 @@ require_once ('./backend/helper.php');
         margin-right: 10px;
     }
 
-    .piq_controls {
-        display: flex;
-        align-items: center;
-    }
-
-    .piq_up,
-    .piq_down {
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        font-size: 16px;
-        margin-left: 10px;
-    }
-
-    .piq_up:hover,
-    .piq_down:hover {
-        color: #333;
-    }
 </style>

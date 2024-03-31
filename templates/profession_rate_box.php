@@ -45,7 +45,7 @@ if (empty ($professions)): ?>
                 <?php else: ?>
                     <div class="button-container">
                         <button type="button" name="<?php echo $profId; ?>_<?php echo $userId; ?>" id="view-rating-button"
-                            class="view-rating-button">Посмотреть свою оценку (не работает еще)</button>
+                            class="view-rating-button">Посмотреть свою оценку</button>
                         <form method="post" action="backend/delete_rate.php">
                             <input style='display: none;' name="delete_rate" value="<?php echo $profId;?>">
                             <button type="submit" class="button">Удалить свою оценку</button>

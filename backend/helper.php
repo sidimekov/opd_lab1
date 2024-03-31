@@ -322,7 +322,7 @@ function getCSSUserMenuDisplay() : string
 }
 
 // получить оценку эксперта одной профессии
-function getRatingBy($userId, $professionId) : array
+function getRatingBy($userId, $professionId) : array | bool
 {
     $pdo = getPDO();
     

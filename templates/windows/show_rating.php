@@ -1,45 +1,47 @@
 <?php
 require_once ('./backend/helper.php');
 
-$profId = null;
-$expertId = null;
-if (isset($_POST['profId'])) {
-    $profId = $_POST['profId'];
-    $expertId = $_POST['expertId'];
-}
+$expertId = getCurrentUser()['id'];
 
 ?>
 
 
 
-<div id="show_rating" class="window">
-    <div class="window-content">
-        <div class="window-header">
-            <h2>Просмотр своей оценки профессии</h2>
-            <span class="close-rate-windows">&times;</span>
-        </div>
-        <div class="window-body">
-            <?php if (!is_null($profId) && !is_null($expertId)): ?>
-                <h3>Ваша оценка:</h3>
-                <div class="rate_list" id="rate_list">
-                    <?php foreach (getRatingBy($profId, $expertId) as $piq): ?>
-                        <?php
-                        $piq_name = $piq['name'];
-                        $piq_id = $piq['id'];
-                        ?>
-                        <label for="piq_<?php echo $piq_id; ?>">
-                            <div class="piq_item" id="piq_item_<?php echo $piq['id']; ?>">
-                                <input type="checkbox" id="piq_<?php echo $piq_id; ?>" title="<?php echo $piq_name; ?>"
-                                    name="piqs[]" class="piq_checkbox">
-                                <?php echo $piq_name; ?>
+<?php foreach (getProfessions() as $profession): ?>
+    <?php $ratings = getRatingBy($expertId, $profession['id']);
+    $profId = $profession['id'];
+    ?>
+    <div id="show_rating_<?php echo $profId; ?>_<?php echo $expertId; ?>" class="show_rating_window">
+        <div class="window-content">
+            <div class="window-header">
+                <h2>Просмотр своей оценки профессии</h2>
+                <span class="close-rate-windows">&times;</span>
+            </div>
+            <div class="window-body">
+                <?php if ($ratings): ?>
+                    <h3>Ваша оценка:</h3>
+                    <div class="rate_list" id="rate_list">
+                        <?php foreach ($ratings as $rating): ?>
+                            <?php
+                            $piq_id = $rating['piq_id'];
+                            $piq = getPiqById($piq_id);
+                            $priority = round($rating['priority'] * 10);
+                            echo $piq['name']; ?>
+                            <br>
+                            <div class="progress-bar"
+                                style="width: 90%; background: linear-gradient(to right, red <?php echo $priority; ?>%, white 0%);">
                             </div>
-                        </label>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <h3>Не удалось найти ваши оценки</h3>
-                </div>
-            <?php endif; ?>
-
+                            <div class="progress">
+                                <?php echo $priority . '%'; ?>
+                            </div>
+                            <br>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <h3>Не удалось найти ваши оценки</h3>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
         </div>
     </div>
-</div>
+<?php endforeach; ?>
