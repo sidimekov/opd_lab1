@@ -163,7 +163,7 @@ require_once ('./backend/helper.php');
         padding: 100px 0;
     }
 
-    .profession-heading {
+    .heading {
         text-align: center;
         font-size: 3rem;
         margin-bottom: 50px;
@@ -218,8 +218,7 @@ require_once ('./backend/helper.php');
         transition: background-color 0.3s ease;
     }
 
-    .view-rating-button:active
-    .pvc-button:active,
+    .view-rating-button:active .pvc-button:active,
     .button:active {
         background-color: #4CAF50;
     }
@@ -343,4 +342,39 @@ require_once ('./backend/helper.php');
         margin-right: 10px;
     }
 
+    .table {
+        width: 95%;
+        margin: 0 auto;
+        border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .table input {
+        width: 95%
+    }
+
+    .table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    .table button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        width: 95%;
+        cursor: pointer;
+    }
+
+    .table button:hover {
+        background-color: #3e8e41;
+    }
 </style>

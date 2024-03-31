@@ -22,7 +22,7 @@ if (!checkAuth() || getCurrentUser()['role_id'] < 1) {
   <?php include_once __DIR__ . '/templates/header.php' ?>
 
   <main class="main">
-    <h1 class="profession-heading">Оценка профессий</h1>
+    <h1 class="heading">Оценка профессий</h1>
     <div class="profession-boxes">
       <?php require_once __DIR__ . '/templates/profession_rate_box.php'; ?>
   </main>
