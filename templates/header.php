@@ -20,12 +20,15 @@
         $pass_val = getValidationError('password');
         $message_err = getMessage('error'); ?>
         <form class="menu-form authorization" method="post" action="backend/login.php">
+
           <label for="email">Почта:</label>
           <input type="email" id="email" name="email" value="<?php echo getOld('email') ?>">
+
           <?php if (hasValidationError('email'))
             echo $email_val . '<br><br>'; ?>
           <label for="password">Пароль:</label>
           <input type="password" id="password" name="password" value="<?php echo getOld('password') ?>">
+
           <?php if (hasValidationError('password'))
             echo $pass_val . '<br><br>'; ?>
           <?php if (hasMessage('error'))
@@ -33,16 +36,20 @@
           <button type="submit">Войти</button>
         </form>
         <form class="menu-form registration" method="post" action="backend/register.php">
+
           <label for="name">Имя:</label>
           <input type="text" id="name" name="name" value="<?php echo getOld('name') ?>">
+
           <?php if (hasValidationError('name'))
             echo $name_val . '<br><br>'; ?>
           <label for="email">Почта:</label>
           <input type="email" id="email" name="email" value="<?php echo getOld('email') ?>">
+
           <?php if (hasValidationError('email'))
             echo $email_val . '<br><br>'; ?>
           <label for="password">Пароль:</label>
           <input type="password" id="password" name="password" value="<?php echo getOld('password') ?>">
+
           <?php if (hasValidationError('password'))
             echo $pass_val . '<br><br>'; ?>
           <?php if (hasMessage('error'))

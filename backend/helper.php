@@ -33,10 +33,10 @@ function setValidationError(string $fieldName, string $message): void
 }
 function hasValidationError(string $fieldName): bool
 {
-    return isset ($_SESSION['validation'][$fieldName]);
+    return isset($_SESSION['validation'][$fieldName]);
 }
 
-function hasValidationErrors() : bool
+function hasValidationErrors(): bool
 {
     if (!empty($_SESSION['validation']) || (hasMessage('error'))) {
         return true;
@@ -75,7 +75,7 @@ function setMessage(string $key, string $message): void
 // проверить сообщение
 function hasMessage(string $key): bool
 {
-    return isset ($_SESSION['message'][$key]);
+    return isset($_SESSION['message'][$key]);
 }
 // получить сообщение
 function getMessage(string $key): string
@@ -98,45 +98,22 @@ function getPDO(): PDO
         }
         return $PDO;
     } catch (\PDOException $e) {
-        die ("Connection error: {$e->getMessage()}");
+        die("Connection error: {$e->getMessage()}");
     }
 }
 
-// найти пользователя с таким email
-function getUserByEmail(string $email): array|bool
-{
-    $pdo = getPDO();
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
-    $stmt->execute(['email' => $email]);
-    return $stmt->fetch(\PDO::FETCH_ASSOC);
-}
-
-// получить текущего пользователя
-function getCurrentUser(): array|false
-{
-    $pdo = getPDO();
-
-    if (!isset ($_SESSION['user'])) {
-        return false;
-    }
-
-    $userId = $_SESSION['user']['id'] ?? null;
-
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
-    $stmt->execute(['id' => $userId]);
-    return $stmt->fetch(\PDO::FETCH_ASSOC);
-}
 
 // выполнить запрос к БД
-function runDBQuery($query) {
+function runDBQuery($query)
+{
     $pdo = getPDO();
 
     $stmt = $pdo->prepare($query);
     try {
         $stmt->execute();
     } catch (\Exception $e) {
-        die ($e->getMessage());
+        die($e->getMessage());
     }
 }
 
@@ -148,7 +125,7 @@ function logout(): void
 
 function checkAuth(): bool
 {
-    if (!isset ($_SESSION['user']['id'])) {
+    if (!isset($_SESSION['user']['id'])) {
         return false;
     }
     return true;
@@ -167,6 +144,8 @@ function getUsers(): array
     $stmt->execute();
     return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
+
+// найти пользователя с таким id
 function getUserById(int $user_id): array|bool
 {
     $pdo = getPDO();
@@ -175,6 +154,49 @@ function getUserById(int $user_id): array|bool
     return $stmt->fetch(\PDO::FETCH_ASSOC);
 }
 
+// найти пользователя с таким email
+function getUserByEmail(string $email): array|bool
+{
+    $pdo = getPDO();
+
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
+    $stmt->execute(['email' => $email]);
+    return $stmt->fetch(\PDO::FETCH_ASSOC);
+}
+
+// получить текущего пользователя
+function getCurrentUser(): array|false
+{
+    $pdo = getPDO();
+
+    if (!isset($_SESSION['user'])) {
+        return false;
+    }
+
+    $userId = $_SESSION['user']['id'] ?? null;
+
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+    $stmt->execute(['id' => $userId]);
+    return $stmt->fetch(\PDO::FETCH_ASSOC);
+}
+
+function updateUser(int $user_id, string $name, string $email, int $role_id)
+{
+    $pdo = getPDO();
+    $query = 'INSERT INTO users (id,name,email,role_id) VALUES (:user_id, :name, :email, :role_id) ON DUPLICATE KEY UPDATE name=VALUES(name),email=VALUES(email),role_id=VALUES(role_id);';
+    $params = [
+        'user_id' => $user_id,
+        'name' => $name,
+        'email' => $email,
+        'role_id' => $role_id
+    ];
+    $stmt = $pdo->prepare($query);
+    try {
+        $stmt->execute($params);
+    } catch (\Exception $e) {
+        die($e->getMessage());
+    }
+}
 
 function setUserRole(int $user_id, int $role_id): void
 {
@@ -188,7 +210,7 @@ function setUserRole(int $user_id, int $role_id): void
     try {
         $stmt->execute($params);
     } catch (\Exception $e) {
-        die ($e->getMessage());
+        die($e->getMessage());
     }
 }
 
@@ -299,20 +321,23 @@ function getProfResultRating(int $prof_id, int $n = 0): array
     }
 }
 
-function importanceSort ($x, $y) {
+function importanceSort($x, $y)
+{
     return $x['importance'] <=> $y['importance'];
 }
 
-function setUserMenuDisplay($display){
+function setUserMenuDisplay($display)
+{
     $_SESSION['userMenu'] = $display;
 }
-function getUserMenuDisplay() : bool {
+function getUserMenuDisplay(): bool
+{
     if (!isset($_SESSION['userMenu'])) {
         $_SESSION['userMenu'] = false;
     }
     return $_SESSION['userMenu'];
 }
-function getCSSUserMenuDisplay() : string
+function getCSSUserMenuDisplay(): string
 {
     if (getUserMenuDisplay()) {
         return 'block';
@@ -322,12 +347,23 @@ function getCSSUserMenuDisplay() : string
 }
 
 // получить оценку эксперта одной профессии
-function getRatingBy($userId, $professionId) : array | bool
+function getRatingBy($userId, $professionId): array|bool
 {
     $pdo = getPDO();
-    
+
     $stmt = $pdo->prepare("SELECT * FROM ratings WHERE profession_id = :profession_id AND expert_id = :expert_id;");
     $stmt->execute(['profession_id' => $professionId, 'expert_id' => $userId]);
+    $return = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    return $return;
+}
+
+// получить все оценки экспертов
+function getAllRatings() : array
+{
+    $pdo = getPDO();
+
+    $stmt = $pdo->prepare("SELECT * FROM ratings;");
+    $stmt->execute();
     $return = $stmt->fetchAll(\PDO::FETCH_ASSOC);
     return $return;
 }
@@ -336,7 +372,7 @@ function getRatingBy($userId, $professionId) : array | bool
 function deleteRatingBy($userId, $professionId)
 {
     $pdo = getPDO();
-    
+
     $stmt = $pdo->prepare("DELETE FROM ratings WHERE profession_id = :profession_id AND expert_id = :expert_id;");
     $stmt->execute(['profession_id' => $professionId, 'expert_id' => $userId]);
 }

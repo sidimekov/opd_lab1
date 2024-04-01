@@ -21,6 +21,8 @@ require_once ('./backend/helper.php');
 
     .progress {
         color: #6c757d;
+        display: flex;
+        justify-content: center;
     }
 
     .progress-bar {
@@ -84,14 +86,14 @@ require_once ('./backend/helper.php');
             <?php echo getCSSUserMenuDisplay(); ?>
         ;
         position: absolute;
-        top: 50px;
+        top: 90px;
         left: 0;
         width: 250px;
         background-color: white;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
         padding: 20px;
         box-sizing: border-box;
-        z-index: 30;
+        z-index: 31;
     }
 
     .header .user-menu form {
@@ -156,11 +158,28 @@ require_once ('./backend/helper.php');
     }
 
     .user-menu {
-        z-index: 10;
+        z-index: 31;
     }
 
     .main {
         padding: 100px 0;
+    }
+
+    .main_text {
+        text-align: center;
+        font-size: 20px;
+    }
+
+    .down_img {
+        /* position: absolute;
+        bottom: 20px;
+        object-position: center bottom;
+        margin: 0 auto;
+        height: auto; */
+        position: absolute;
+        bottom: 10px;
+        transform: translateX(-50%);
+        width: 100px;
     }
 
     .heading {

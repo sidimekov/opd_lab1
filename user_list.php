@@ -1,6 +1,12 @@
 <?php
 require_once __DIR__ . '/backend/helper.php';
 
+$user = getCurrentUser();
+
+if (!checkAuth() || $user['role_id'] < 2) {
+  redirect('/main.php');
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +38,9 @@ require_once __DIR__ . '/backend/helper.php';
       </thead>
       <tbody>
         <?php foreach (getUsers() as $user): ?>
-          <?php $role_id = $user['role_id'];
+          <?php
+          $user_id = $user['id'];
+          $role_id = $user['role_id'];
           $role = '';
           if ($role_id == 0) {
             $role = 'Пользователь';
@@ -42,17 +50,25 @@ require_once __DIR__ . '/backend/helper.php';
             $role = 'Админ';
           } ?>
           <tr>
-            <td><?php echo $user['id']; ?></td>
-            <td><?php echo $user['name']; ?></td>
-            <td><?php echo $user['email']; ?></td>
-            <td><?php echo $user['creation_date']; ?></td>
-            <td><input list="role_id" id="<?php echo $role_id; ?>" value="<?php echo $role_id . " - " . $role; ?>">
-            <datalist id="role_id">
-              <option id="0" value="0 - Пользователь">
-              <option id="1" value="1 - Эксперт">
-              <option id="2" value="2 - Админ">
-            </datalist></td>
-            <td><button type="button">Обновить</button></td>
+            <form action="/backend/change_user.php" method="post">
+              <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+              <td>
+                <?php echo $user_id; ?>
+              </td>
+              <td><input type="text" name="user_name" value="<?php echo $user['name']; ?>"></td>
+              <td><input type="text" name="user_email" value="<?php echo $user['email']; ?>"></td>
+              <td>
+                <?php echo $user['creation_date']; ?>
+              </td>
+              <td><input list="role_id" name="user_role" id="<?php echo $role_id; ?>" value="<?php echo $role_id . " - " . $role; ?>">
+                <datalist id="role_id">
+                  <option id="0" value="0 - Пользователь">
+                  <option id="1" value="1 - Эксперт">
+                  <option id="2" value="2 - Админ">
+                </datalist>
+              </td>
+              <td><button type="submit">Обновить</button></td>
+            </form>
           </tr>
         <?php endforeach; ?>
       </tbody>
