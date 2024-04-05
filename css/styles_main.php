@@ -179,7 +179,7 @@ require_once ('./backend/helper.php');
         position: absolute;
         bottom: 10px;
         transform: translateX(-50%);
-        width: 100px;
+        width: 150px;
     }
 
     .heading {
